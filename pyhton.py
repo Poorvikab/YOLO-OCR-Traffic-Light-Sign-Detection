@@ -24,7 +24,7 @@ category_images = {
     "Speed Limit 80": "images/speed_80.png",
 }
 
-# Create folder for saving GUI snapshots
+# Create folder for saving GUI snapshots and video
 os.makedirs("saved_gui", exist_ok=True)
 
 # Initialize Tkinter window
@@ -77,8 +77,18 @@ detected_signs = deque(maxlen=50)
 # Track timestamps of detections to avoid duplicate issues
 last_seen = {}
 
-# Open webcam
-cap = cv2.VideoCapture("C:/Users/poorv/Desktop/4 video.mp4")
+# Open webcam or video file
+cap = cv2.VideoCapture("C:/Users/poorv/Desktop/WhatsApp Video 2025-03-24 at 14.38.04_5f548fd2.mp4")
+
+# Get video properties
+frame_width = int(cap.get(3))
+frame_height = int(cap.get(4))
+fps = int(cap.get(cv2.CAP_PROP_FPS))
+
+# Define the codec and create a VideoWriter object
+output_path = "saved_video.avi"
+fourcc = cv2.VideoWriter_fourcc(*"XVID")  # Use 'XVID' or 'mp4v' for MP4
+out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 def perform_ocr(cropped_img):
     """Extracts speed limit number from a sign using OCR."""
@@ -145,6 +155,9 @@ def update_gui():
     # Draw detections
     annotated_frame = results[0].plot()
 
+    # Save the annotated frame to video
+    out.write(annotated_frame)
+
     # Convert frame for Tkinter
     img = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
     img = Image.fromarray(img).resize((500, 400))
@@ -172,10 +185,12 @@ def update_gui():
             sign_label.photo = img
             sign_label.pack(pady=(0, 10))
 
-            if road_img:
-                road_label = tk.Label(detection_frame, image=road_img, bg="white")
-                road_label.image = road_img
-                road_label.pack(pady=(0, 10))
+        # 🔹 Add the road image after each detection
+        if road_img:
+            road_label = tk.Label(detection_frame, image=road_img, bg="white")
+            road_label.image = road_img
+            road_label.pack(pady=(0, 10))
+
 
     detection_frame.update_idletasks()
     canvas.configure(scrollregion=canvas.bbox("all"))
@@ -190,4 +205,5 @@ root.mainloop()
 
 # Release resources
 cap.release()
+out.release()
 cv2.destroyAllWindows()
