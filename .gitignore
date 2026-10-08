@@ -1,0 +1,32 @@
+# Python environments and caches
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.cache
+
+# Local datasets (download separately; see README.md)
+/datasets/
+/ocr_dataset/
+/train/
+/valid/
+/test/
+
+# Training output, except the trained checkpoint required for inference
+/runs/*
+!/runs/detect/
+/runs/detect/*
+!/runs/detect/train/
+/runs/detect/train/*
+!/runs/detect/train/weights/
+/runs/detect/train/weights/*
+!/runs/detect/train/weights/best.pt
+
+# Local inference results and recordings
+/saved_results/
+*.mp4
+*.avi
+
+# Downloaded base weights; only the project's trained checkpoint is kept
+*.pt
+!/runs/detect/train/weights/best.pt

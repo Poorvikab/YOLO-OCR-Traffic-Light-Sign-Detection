@@ -1,0 +1,12 @@
+train: train/images
+val: valid/images
+test: test/images
+
+names: 
+  0: Amber Light
+  1: Green Light
+  2: Red Light
+  3: Speed Limit 30
+  4: Speed Limit 60
+  5: Speed Limit 80
+  6: Speed Limit

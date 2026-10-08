@@ -1,0 +1,21 @@
+# Core Dependencies
+ultralytics
+opencv-python
+pytesseract
+torch
+torchvision
+numpy
+psutil
+Pillow
+
+# Additional dependencies for full functionality
+pandas
+matplotlib
+seaborn
+
+# For Hugging Face integration (optional)
+huggingface-hub
+
+# Development tools (optional, comment out if not needed)
+# jupyter>=1.0.0
+# ipython>=8.12.0
